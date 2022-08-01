@@ -1,0 +1,8 @@
+{
+    "cmake.configureEnvironment": {
+        "PICO_SDK_PATH": "../../pico/pico-sdk"
+    },
+    "cmake.environment": {
+        "PICO_SDK_PATH": "../../pico/pico-sdk"
+    }
+}

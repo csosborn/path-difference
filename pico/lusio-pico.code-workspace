@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"C_Cpp.formatting": "clangFormat",
+		"cmake.generator": "Unix Makefiles",
+		// "cmake.environment": {
+		// 	"PICO_SDK_PATH": "../../pico/pico-sdk"
+		// },
+		// "cmake.buildEnvironment": {
+		// 	"PICO_SDK_PATH": "../../pico/pico-sdk"
+		// },
+		// "cmake.configureEnvironment": {
+		// 	"PICO_SDK_PATH": "../../pico/pico-sdk"
+		// },
+		"cmake.configureSettings": {
+			"PICO_SDK_PATH": "../../../pico/pico-sdk"
+		}
+	}
+}
