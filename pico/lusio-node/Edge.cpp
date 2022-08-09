@@ -55,3 +55,12 @@ bool Edge::init() {
   printf("Edge configured with tx SM %d and rx SM %d.\n", txSM_, rxSM_);
   return true;
 }
+
+
+void Edge::enable() {
+  pio_sm_set_enabled(pioTx_, txSM_, true);
+}
+
+void Edge::disable() {
+  pio_sm_set_enabled(pioTx_, txSM_, false);
+}

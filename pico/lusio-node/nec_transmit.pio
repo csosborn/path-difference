@@ -2,8 +2,17 @@
 
 .program nec_transmit
 
-.define NUM_CYCLES 31               ; how many carrier cycles to generate
-.define public TICKS_PER_LOOP 4
+
+; A NEC command is modulated on a 38.222kHz carrier, or a 26.1us period. The duty cycle is relatively
+; unimportant (10% to 50% range works well). 
+; Each command is:
+; 1. A 9ms leading burst (9ms / 26.1us = 344 cycles)
+; 2. A 4.5ms space (4.5ms / 26.1us = )
+
+
+.define NUM_CYCLES 21               ; how many carrier cycles to generate
+.define public TICKS_PER_LOOP 5
+
 
 .wrap_target
 
@@ -11,13 +20,13 @@
 ; for a high bit, emit NUM_CYCLES of carrier
 ; for a low bit, do not emit anything for (TICKS_PER_LOOP * NUM_CYCLES) total time
 
-out Y, 1
+; out Y, 1
 ; jmp Y emit_high
 
-; emit_high:
 ; set X, (NUM_CYCLES - 1) 
-; set pins, 1         ; set the pin high (1 cycle)
-; set pins, 0 [1]     ; set the pin low (2 cycles)
+; cycle_loop:
+set pins, 1         ; set the pin high (1 cycle)
+set pins, 0 [3]    ; set the pin low (4 cycles)
 ; jmp X--, cycle_loop             ; (1 more cycle)
 .wrap
 

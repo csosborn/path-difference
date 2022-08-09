@@ -6,6 +6,9 @@ public:
 
   bool init();
 
+  void enable();
+  void disable();
+
 private:
   uint edgeNum_;
 

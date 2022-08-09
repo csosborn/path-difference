@@ -18,6 +18,8 @@
 		// },
 		"cmake.configureSettings": {
 			"PICO_SDK_PATH": "../../../pico/pico-sdk"
-		}
+		},
+	    "cortex-debug.openocdPath": "/Users/chris/Desktop/pico/openocd/src/openocd"
 	}
+	
 }
