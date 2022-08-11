@@ -4,6 +4,17 @@
 #include <functional>
 
 constexpr uint32_t LIGHT_SIZE = 12;
+constexpr int bit_depth = 12;
+constexpr uint32_t maxChannelVal = 1 << 12;
+
+struct Color {
+  public:
+  Color(float rf, float gf, float bf) : r(rf * maxChannelVal), g(gf * maxChannelVal), b(bf * maxChannelVal) {}
+
+  uint32_t r; 
+  uint32_t g; 
+  uint32_t b;
+};
 
 class Light {
 public:
@@ -12,6 +23,8 @@ public:
   bool init();
 
   void put_pixel(uint32_t pixel_grb);
+
+  void setPixel(uint32_t pixelIndex, const Color& color);
 
   void setPixel(uint32_t pixelIndex, uint32_t pixelGRB);
 

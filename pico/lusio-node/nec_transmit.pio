@@ -49,6 +49,8 @@ void nec_transmit_program_init(PIO pio, uint sm, uint offset, uint emit_pin, flo
     pio_sm_set_enabled(pio, sm, true);
 
     printf("Ran nec_transmit_program_init with pin %d. Clock freq is %d.\n", emit_pin, clock_get_hz(clk_sys));
+    gpio_set_drive_strength(emit_pin, GPIO_DRIVE_STRENGTH_12MA);
+    printf("Drive strength for pin %d is %d.\n", emit_pin, gpio_get_drive_strength(emit_pin));
 }
 %}
 

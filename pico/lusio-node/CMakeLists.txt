@@ -70,7 +70,7 @@ target_link_libraries(lusio_node_glowy LINK_PUBLIC
 target_sources(lusio_node_glowy PRIVATE NodeGlow.cpp Light.cpp)
 
 pico_add_extra_outputs(lusio_node_glowy)
-# pico_enable_stdio_usb(lusio_node 1)
+pico_enable_stdio_usb(lusio_node 1)
 
 pico_enable_stdio_usb(lusio_node_glowy 0)
 pico_enable_stdio_uart(lusio_node_glowy 1)

@@ -14,7 +14,7 @@
 #include "Light.hpp"
 #include "Node.hpp"
 
-#define LUSIO_PROTO 1
+// #define LUSIO_PROTO 1
 
 #ifdef LUSIO_PROTO
 
@@ -46,6 +46,9 @@ constexpr uint lightPin = 7;
 
 #endif
 
+Color brightGreen(0.0, 0.6, 0.2);
+Color dimRed(0.3, 0.04, 0.04);
+
 int main()
 {
   stdio_init_all();
@@ -53,37 +56,33 @@ int main()
   PIO pioTx = pio0;
   PIO pioRx = pio1;
 
-  // sleep_ms(1000);
+  sleep_ms(1000);
 
 
   Light light(lightPin, pioRx, true);
 
-  if (light.init())
-  {
+  if (light.init()) {
     printf("Light successfully configured.\n");
   }
 
   for (int pix = 0; pix < 12; pix++) {
-    // light.put_pixel(0x000200);
-    light.setPixel(pix, 0x000200);
+    // light.setPixel(pix, 0x000200);
+    light.setPixel(pix, 500, 0, 0); 
   }
-  // light.setPixel(7, 0x030000);
-  light.update();
 
-  sleep_ms(3000);
+  sleep_ms(1000);
 
   Edge edge1(1, pioTx, txPin1, pioRx, rxPin1);
   Edge edge2(2, pioTx, txPin2, pioRx, rxPin2);
   Edge edge3(3, pioTx, txPin3, pioRx, rxPin3);
 
   if (edge1.init() && edge2.init() && edge3.init()) {
-  // if (edge1.init()) {
     printf("All edges successfully configured.\n");
   }
 
-  edge1.disable();
-  edge2.disable();
-  edge3.disable();
+  // edge1.disable();
+  // edge2.disable();
+  // edge3.disable();
 
   // configure and enable the state machines
   // int tx_sm = nec_tx_init(
@@ -157,32 +156,22 @@ int main()
   bool update = false;
   uint32_t counter = 0;
 
-  bool enabled = false;
+  bool enabled = true;
 
   while (true)
   {
-    // gpio_put(PICO_DEFAULT_LED_PIN, 1);
-    // gpio_put(txPin1, 1);
-    // gpio_put(txPin2, 1);
-    // gpio_put(txPin3, 1);
-    // sleep_ms(50);
-    // gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    // gpio_put(txPin1, 0);
-    // gpio_put(txPin2, 0);
-    // gpio_put(txPin3, 0);
-    // sleep_ms(1);
-
-    // for (int pix = 0; pix < 12; pix++) {
-    //   light.put_pixel(0x000200);
-    // }
-
     bool in1 = !gpio_get(rxPin1);
     bool in2 = !gpio_get(rxPin2);
     bool in3 = !gpio_get(rxPin3);
   
     if (in1 != last1) {
       last1 = in1;
-      light.setPixel(7, last1 ? 0x333333 : 0x010001);
+      light.setPixel(7, last1 ? brightGreen : dimRed);
+      // if (last1) {
+      //   light.setPixel(7, 1000, 1000, 1000);
+      // } else {
+      //   light.setPixel(7, 200, 200, 200);
+      // }
       // light.update();
       update = true;
       // printf("%d %d %d\n", in1, in2, in3);
@@ -190,7 +179,12 @@ int main()
 
     if (in2 != last2) {
       last2 = in2;
-      light.setPixel(11, last2 ? 0x333333 : 0x010001);
+      light.setPixel(11, last2 ? brightGreen : dimRed);
+      // if (last2) {
+      //   light.setPixel(11, 1000, 1000, 1000);
+      // } else {
+      //   light.setPixel(11, 200, 200, 200);
+      // }
       // light.update();
       update = true;
       // printf("%d %d %d\n", in1, in2, in3);
@@ -198,7 +192,12 @@ int main()
 
     if (in3 != last3) {
       last3 = in3;
-      light.setPixel(3, last3 ? 0x333333 : 0x010001);
+      light.setPixel(3, last3 ? brightGreen : dimRed);
+      // if (last3) {
+      //   light.setPixel(3, 1000, 1000, 1000);
+      // } else {
+      //   light.setPixel(3, 200, 200, 200);
+      // }
       // light.update();
       update = true;
       // printf("%d %d %d\n", in1, in2, in3);
@@ -212,15 +211,15 @@ int main()
 
     counter++;
 
-    if (counter % 20 == 0) {
-      if (enabled) {
-        edge1.disable();
-        enabled = false;
-      } else {
-        edge1.enable();
-        enabled = true;
-      }
-    }
+    // if (counter % 20 == 0) {
+    //   if (enabled) {
+    //     edge1.disable();
+    //     enabled = false;
+    //   } else {
+    //     edge1.enable();
+    //     enabled = true;
+    //   }
+    // }
     gpio_put(PICO_DEFAULT_LED_PIN, enabled);
 
     sleep_ms(1);

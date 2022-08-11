@@ -74,7 +74,7 @@ int main()
     }
     light.update();
 
-    if (counter >= 4090) {
+    if (counter >= 4092) {
         diff = -1;
     } else if (counter == 0) {
         diff = 1;
