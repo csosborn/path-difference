@@ -16,6 +16,14 @@ struct Color {
   uint32_t b;
 };
 
+struct PixelRange {
+  public:
+  PixelRange(uint16_t only) : from(only), to(only+1) {}
+  PixelRange(uint16_t pfrom, uint16_t pto) : from(pfrom%LIGHT_SIZE), to(pto%LIGHT_SIZE) {}
+  uint16_t from;
+  uint16_t to;
+};
+
 class Light {
 public:
   explicit Light(uint pin, PIO &pio, bool ditherOnCore1 = false);
@@ -23,6 +31,8 @@ public:
   bool init();
 
   void put_pixel(uint32_t pixel_grb);
+
+  void setPixels(const PixelRange& range, const Color& color);
 
   void setPixel(uint32_t pixelIndex, const Color& color);
 

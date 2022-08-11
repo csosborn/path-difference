@@ -6,8 +6,6 @@
 
 #include <stdio.h>
 
-// #include "nec_receive.h"
-// #include "nec_transmit.h" // include the library headers
 #include "pico/stdlib.h"
 
 #include "Edge.hpp"
@@ -46,6 +44,8 @@ constexpr uint lightPin = 7;
 
 #endif
 
+Color startup(0.0, 0.1, 0.1);
+
 Color brightGreen(0.0, 0.6, 0.2);
 Color dimRed(0.3, 0.04, 0.04);
 
@@ -66,8 +66,7 @@ int main()
   }
 
   for (int pix = 0; pix < 12; pix++) {
-    // light.setPixel(pix, 0x000200);
-    light.setPixel(pix, 500, 0, 0); 
+    light.setPixel(pix, startup); 
   }
 
   sleep_ms(1000);
@@ -158,6 +157,10 @@ int main()
 
   bool enabled = true;
 
+  PixelRange range1(6, 10);
+  PixelRange range2(10, 14);
+  PixelRange range3(14, 18);
+
   while (true)
   {
     bool in1 = !gpio_get(rxPin1);
@@ -166,41 +169,19 @@ int main()
   
     if (in1 != last1) {
       last1 = in1;
-      light.setPixel(7, last1 ? brightGreen : dimRed);
-      // if (last1) {
-      //   light.setPixel(7, 1000, 1000, 1000);
-      // } else {
-      //   light.setPixel(7, 200, 200, 200);
-      // }
-      // light.update();
-      update = true;
-      // printf("%d %d %d\n", in1, in2, in3);
+      light.setPixels(range1, last1 ? brightGreen : dimRed);
     }
 
     if (in2 != last2) {
       last2 = in2;
-      light.setPixel(11, last2 ? brightGreen : dimRed);
-      // if (last2) {
-      //   light.setPixel(11, 1000, 1000, 1000);
-      // } else {
-      //   light.setPixel(11, 200, 200, 200);
-      // }
-      // light.update();
+      light.setPixels(range2, last2 ? brightGreen : dimRed);
       update = true;
-      // printf("%d %d %d\n", in1, in2, in3);
     }
 
     if (in3 != last3) {
       last3 = in3;
-      light.setPixel(3, last3 ? brightGreen : dimRed);
-      // if (last3) {
-      //   light.setPixel(3, 1000, 1000, 1000);
-      // } else {
-      //   light.setPixel(3, 200, 200, 200);
-      // }
-      // light.update();
+      light.setPixels(range3, last3 ? brightGreen : dimRed);
       update = true;
-      // printf("%d %d %d\n", in1, in2, in3);
     }
 
     if (update) {
@@ -210,16 +191,6 @@ int main()
     }
 
     counter++;
-
-    // if (counter % 20 == 0) {
-    //   if (enabled) {
-    //     edge1.disable();
-    //     enabled = false;
-    //   } else {
-    //     edge1.enable();
-    //     enabled = true;
-    //   }
-    // }
     gpio_put(PICO_DEFAULT_LED_PIN, enabled);
 
     sleep_ms(1);

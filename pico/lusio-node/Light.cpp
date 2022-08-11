@@ -125,6 +125,21 @@ void Light::put_pixel(uint32_t pixel_grb)
   pio_sm_put_blocking(pio_, ws2812SM_, pixel_grb << 8u);
 }
 
+void Light::setPixels(const PixelRange& range, const Color& color) {
+  uint16_t pix = range.from;
+  while (pix != range.to) {
+    setPixel(pix, color);
+    pix++;
+    if (pix == LIGHT_SIZE) {
+      if (range.to >= pix) {
+        return;
+      } else {
+        pix = 0;
+      }
+    }
+  }
+}
+
 void Light::setPixel(uint32_t pixelIndex, const Color& color) {
   printf("setPixel %d %d %d %d\n", pixelIndex, color.r, color.g, color.b);
   printf("Max channel val is %d.\n", maxChannelVal);
