@@ -141,8 +141,6 @@ void Light::setPixels(const PixelRange& range, const Color& color) {
 }
 
 void Light::setPixel(uint32_t pixelIndex, const Color& color) {
-  printf("setPixel %d %d %d %d\n", pixelIndex, color.r, color.g, color.b);
-  printf("Max channel val is %d.\n", maxChannelVal);
   setPixel(pixelIndex, color.r, color.g, color.b);
 }
 

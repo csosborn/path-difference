@@ -7,9 +7,21 @@ constexpr uint32_t LIGHT_SIZE = 12;
 constexpr int bit_depth = 12;
 constexpr uint32_t maxChannelVal = 1 << 12;
 
+inline uint32_t limit(uint32_t in) {
+  return in > maxChannelVal-1 ? maxChannelVal : in;
+}
+
 struct Color {
   public:
-  Color(float rf, float gf, float bf) : r(rf * maxChannelVal), g(gf * maxChannelVal), b(bf * maxChannelVal) {}
+  Color() : r(0), g(0), b(0) {}
+  explicit Color(uint32_t ri, uint32_t gi, uint32_t bi) 
+    : r(limit(ri)), 
+      g(limit(gi)), 
+      b(limit(bi)) {}
+
+  static Color forRatios(float rf, float gf, float bf) {
+    return Color(rf * maxChannelVal, gf * maxChannelVal, bf * maxChannelVal);
+  }
 
   uint32_t r; 
   uint32_t g; 
@@ -19,7 +31,7 @@ struct Color {
 struct PixelRange {
   public:
   PixelRange(uint16_t only) : from(only), to(only+1) {}
-  PixelRange(uint16_t pfrom, uint16_t pto) : from(pfrom%LIGHT_SIZE), to(pto%LIGHT_SIZE) {}
+  PixelRange(uint16_t pfrom, uint16_t pto) : from(pfrom), to(pto) {}
   uint16_t from;
   uint16_t to;
 };
